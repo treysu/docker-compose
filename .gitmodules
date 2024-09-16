@@ -1,0 +1,3 @@
+[submodule "hass"]
+	path = hass
+	url = https://github.com/treysullivent/docker-compose-hass.git

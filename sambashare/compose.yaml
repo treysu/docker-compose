@@ -1,0 +1,47 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+    - "com.centurylinklabs.watchtower.enable=true"
+  healthcheck:
+    test: wget --no-verbose --tries=1 --spider google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
+  env_file:
+    - path: default.env
+      required: true
+
+name: samba
+
+services:
+  samba:
+    <<: [ *general ]
+    image: dperson/samba
+    hostname: samba
+    container_name: samba
+    environment:
+      - USERID=1000
+      - GROUPID=1000
+    networks:
+      - default
+    ports:
+      - "137:137/udp"
+      - "138:138/udp"
+      - "139:139/tcp"
+      - "445:445/tcp"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_add:
+      - CAP_NET_ADMIN  
+    stdin_open: true
+    tty: true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/sambashare:/sambashare:z
+
+    command: '-s "sambashare;/sambashare;yes;no;no;trey" -u "trey;treyspassword" -p'
+networks:
+  default:

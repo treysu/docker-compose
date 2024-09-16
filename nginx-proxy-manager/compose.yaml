@@ -1,0 +1,36 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+    - "com.centurylinklabs.watchtower.enable=true"
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
+  env_file:
+    - path: default.env
+      required: true
+
+name:  nginx-proxy-manager
+
+services:
+  nginx-proxy-manager:
+    <<: [*general]
+    #image: jc21/nginx-proxy-manager:latest
+    image: jc21/nginx-proxy-manager:github-pr-3121
+    container_name: nginx-proxy-manager
+    hostname: nginx-proxy-manager
+    environment:
+      - PUID=1002
+      - PGID=1003
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/nginx-proxy-manager/data:/data
+      - ~/Docker/container-data/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+      - ~/Docker/container-data/nginx-proxy-manager/_hsts_map.conf:/app/templates/_hsts_map.conf

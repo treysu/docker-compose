@@ -1,0 +1,102 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+    - "com.centurylinklabs.watchtower.enable=true"
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
+  env_file:
+    - path: default.env
+      required: true
+
+x-media: &media-grp
+  PUID: 1001 # media
+  PGID: 1002 # mediagrp
+
+
+x-plexdependant: &plexdependant
+  init: true
+  depends_on:
+    - plex
+
+name: plex
+
+services:
+  plex:
+    <<: [ *general ]
+    container_name: plex
+    network_mode: host
+    environment:
+      <<: *media-grp
+      VERSION: docker
+    #ports:
+    #  - "32400:32400" # access to the Plex Media Server
+    #  - "1900:1900/udp" # access to the Plex DLNA Server
+    #  #- "5353:5353/udp" # older Bonjour/Avahi network discovery
+    #  - "8324:8324/tcp" # controlling Plex for Roku via Plex Companion
+    #  - "32410:32410/udp" # current GDM network discovery
+    #  - "32412:32412/udp" # current GDM network discovery
+    #  - "32413:32413/udp" # current GDM network discovery
+    #  - "32414:32414/udp" # current GDM network discovery
+    #  - "32469:32469/tcp" # access to the Plex DLNA Server
+
+
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/plex/plexmediaserver:/config
+      - /media/library1/MediaLibrary1:/library1:ro
+      - /media/library2/MediaLibrary2:/library2:ro
+    image: lscr.io/linuxserver/plex:latest
+
+  kometa:
+    <<: [ *general, *plexdependant ]
+    container_name: kometa
+    environment:
+      <<: *media-grp
+      #KOMETA_RUN: True
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/plex/kometa:/config:rw
+    image: kometateam/kometa
+    env_file:
+      - path: default.env
+        required: true
+      - path: kometa.env
+        required: true
+
+  plex-image-cleanup:
+    <<: [ *general, *plexdependant ]
+    image: meisnate12/plex-image-cleanup
+    container_name: plex-image-cleanup
+    environment:
+      <<: *media-grp
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - "~/Docker/container-data/plex/plex-image-cleanup/config:/config:rw"
+      - "~/Docker/container-data/plex/plexmediaserver/Library/Application Support/Plex Media Server:/plex:rw"
+
+  letterboxd_sync:
+    <<: [ *general, *plexdependant ]
+    container_name: letterboxd_sync
+    build: https://github.com/treysullivent/letterboxd_plex_sync.git
+    stdin_open: true
+    tty: true
+    environment:
+      <<: *media-grp
+    env_file:
+      - path: ~/Docker/container-data/plex/lb_sync/debug.env
+        required: false
+      - path: default.env
+        required: true
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/plex/lb_sync/config:/root/.config/letterboxd_stats:ro # directory containing config.toml 
+      - ~/Docker/container-data/plex/lb_sync/resources:/app/resources:rw # optionally add in a resources folder to add a pre-generated lb to tmdb mapping CSV file. 

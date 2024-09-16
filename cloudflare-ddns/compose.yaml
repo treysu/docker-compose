@@ -1,0 +1,33 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+    - "com.centurylinklabs.watchtower.enable=true"
+  init: true
+  env_file:
+    - path: default.env
+      required: true
+
+name: cloudflare-ddns
+
+services:
+  cloudflare-ddns:
+    container_name: cloudflare-ddns
+    hostname: cloudflare-ddns
+    image: oznu/cloudflare-ddns:latest
+    env_file:
+      - path: default.env
+        required: true
+      - path: cloudflare.env
+        required: true
+
+  cloudflare-ddns2:
+    container_name: cloudflare-ddns2
+    hostname: cloudflare-ddns2
+    image: oznu/cloudflare-ddns:latest
+    env_file:
+      - path: default.env
+        required: true
+      - path: cloudflare2.env
+        required: true

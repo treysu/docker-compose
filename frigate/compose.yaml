@@ -1,0 +1,59 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+    - "com.centurylinklabs.watchtower.enable=true"
+  env_file:
+    - path: default.env
+      required: true
+
+x-automation: &automation
+  environment:
+    - PUID=1004
+    - PGID=1006
+
+name: homeassistant
+
+services:
+
+  #-------------------------------------  
+  frigate:
+    <<: [ *general ]
+    container_name: frigate
+    hostname: frigate
+    #privileged: true
+    image: ghcr.io/blakeblackshear/frigate:stable
+    shm_size: "64mb" # update for your cameras based on calculation above
+    devices:
+      - /dev/apex_0:/dev/apex_0    # Passes PCIe Coral
+      - /dev/dri:/dev/dri    # Passes PCIe GPU for transcoding
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ~/Docker/container-data/frigate/config:/config
+      - /media/library2/Frigate:/media/frigate
+      #- type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+      #  target: /tmp/cache
+      #  tmpfs:
+      #    size: 1000000000
+    ports:
+      - "5000:5000"
+      - "8556:8554" # RTSP feeds
+      - "8555:8555/tcp" # WebRTC over tcp
+      - "8555:8555/udp" # WebRTC over udp
+    #environment:
+    #  #FRIGATE_RTSP_PASSWORD: "frigate"
+    #  LIBVA_DRIVER_NAME: "radeonsi"
+    #healthcheck:
+    #  test: curl google.com || exit 1
+    #  interval: 30s
+    #  timeout: 10s
+    #  retries: 3
+    cap_add:
+      - CAP_PERFMON
+    env_file:
+      - path: default.env
+        required: true
+      - path: frigate.env
+        required: true

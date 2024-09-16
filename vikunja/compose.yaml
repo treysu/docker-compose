@@ -1,0 +1,52 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+    - "com.centurylinklabs.watchtower.enable=true"
+  init: true
+  env_file:
+    - path: default.env
+      required: true
+    - path: vikunja.env
+      required: true
+
+name: vikunja
+
+services:
+  vikunja:
+    <<: [ *general ]
+    container_name: vikunja
+    hostname: vikunja
+    image: vikunja/vikunja
+    ports:
+      - 3456:3456
+    #healthcheck:
+    #  test: wget --no-verbose --tries=1 --spider http://localhost:3456 || exit 1
+    #  interval: 30s
+    #  timeout: 10s
+    #  retries: 3  
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/vikunja/files:/app/vikunja/files
+    depends_on:
+      vikunja-db:
+        condition: service_healthy
+
+  vikunja-db:
+    <<: [ *general ]
+    container_name: vikunja-db
+    hostname: vikunja-db
+    image: mariadb:10
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/vikunja/db:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -u $$MYSQL_USER --password=$$MYSQL_PASSWORD"
+        ]
+      interval: 2s
+      start_period: 30s

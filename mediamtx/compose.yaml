@@ -1,0 +1,42 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+    - "com.centurylinklabs.watchtower.enable=true"
+  ##init: true
+  #env_file:
+  #  - path: default.env
+  #    required: true
+
+name: mediamtx
+
+services:
+  mediamtx:
+    <<: [ *general ]
+    container_name: mediamtx
+    image: bluenviron/mediamtx:latest-ffmpeg
+    hostname: mediamtx
+    devices:
+      - /dev/video0:/dev/video0
+    #stdin_open: true
+    #tty: true
+    environment:
+        - MTX_PROTOCOLS=tcp
+        - MTX_WEBRTCADDITIONALHOSTS=192.168.1.189
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/mediamtx/mediamtx.yml:/mediamtx.yml
+    ports:
+        - 8554:8554
+        - 1935:1935
+        - 9888:8888
+        - 9889:8889
+        - 9997:9997
+        - 8890:8890/udp
+        - 8189:8189/udp
+    #healthcheck:
+    #  test: wget --no-verbose --tries=1 --spider http://localhost:8554 || exit 1      
+    #  interval: 30s
+    #  timeout: 10s
+    #  retries: 3

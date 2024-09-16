@@ -1,0 +1,27 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+    - "com.centurylinklabs.watchtower.enable=true"
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
+  init: true
+  env_file:
+    - path: default.env
+      required: true
+
+name:  auto-heal
+
+services:
+  autoheal:
+    <<: [ *general ]
+    container_name: autoheal
+    hostname: autoheal
+    image: willfarrell/autoheal:1.2.0
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
