@@ -1,7 +1,7 @@
 # Ignore everything by default
 *
 
-# Allow compose.yaml files
+# Allow compose.yaml files in any directory
 !*/compose.yaml
 
 # Allow files ending with .example
@@ -13,4 +13,5 @@
 !README.md
 
 # Allow everything in the .scripts directory
-!.scripts/
+!/.scripts/
+!.scripts/**
