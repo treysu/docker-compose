@@ -96,8 +96,4 @@ Welcome to my personal Docker Compose playground! 🎉 This repo provides a set 
 
 ## 🌟 Contributing
 
-Contributions, issues, and feature requests are welcome… but honestly, this is mostly for my own fun and learning! 😅
-
----
-
-*Happy hosting and managing your Docker services! 🚀*
+Contributions, issues, and feature requests are welcome… but honestly, this is mostly for fun and education, so don't worry about it!
