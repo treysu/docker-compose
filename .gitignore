@@ -1,13 +1,16 @@
-# Ignore everything
+# Ignore everything by default
 *
-*/docker-data/*
 
+# Allow compose.yaml files
+!*/compose.yaml
 
-# But not these files...
+# Allow files ending with .example
+!*.example
+
+# Allow standard Git files
 !.gitignore
 !.gitmodules
 !README.md
-!./.scripts/
-!*/compose.yaml
-!*.example
 
+# Allow everything in the .scripts directory
+!.scripts/
