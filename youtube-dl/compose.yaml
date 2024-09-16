@@ -1,0 +1,55 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+    - "com.centurylinklabs.watchtower.enable=true"
+  init: true
+  env_file:
+    - path: default.env
+      required: true
+
+name: youtube-dl
+
+services:
+  youtube-dl:
+    <<: [ *general ]
+    container_name: youtube-dl
+    hostname: youtube-dl
+    image: tzahi12345/youtubedl-material:latest
+    ports:
+      - "8998:17442"
+
+    environment:
+      ytdl_mongodb_connection_string: 'mongodb://youtube-dl-db:27017'
+      ytdl_use_local_db: 'false'
+      write_ytdl_config: 'true'
+    depends_on:
+      - youtube-dl-db
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/youtube-dl/appdata:/app/appdata
+      - /media/library1/MediaLibrary1/yt-audio:/app/audio
+      - /media/library1/MediaLibrary1/Videos:/app/video
+      - /media/library1/MediaLibrary1/subscriptions:/app/subscriptions
+      - ~/Docker/container-data/youtube-dl/users:/app/users
+    healthcheck:
+      test: curl http://localhost:17442 || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  youtube-dl-db:
+    <<: [ *general ]
+    container_name: youtube-dl-db
+    hostname: youtube-dl-db
+    image: mongo:4
+    logging:
+      driver: "none"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/youtube-dl/db/:/data/db
+    healthcheck:
+      test: mongo --eval 'db.runCommand("ping").ok' localhost:27017
+      interval: 30s
+      timeout: 10s
