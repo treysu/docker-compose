@@ -114,6 +114,6 @@ done
 # Perform the clean operation if requested
 if [ "$CLEAN" = true ]; then
     echo "Pruning all unused Docker objects (volumes, networks, images, containers)"
-    docker system prune --volumes -f
+    docker system prune -a --volumes -f
 fi
 
