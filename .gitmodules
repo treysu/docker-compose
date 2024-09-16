@@ -4,3 +4,6 @@
 [submodule "mediag"]
 	path = mediag
 	url = https://github.com/treysullivent/docker-compose-mediag.git
+[submodule "plex"]
+	path = plex
+	url = https://github.com/treysullivent/docker-compose-plex-stack.git
