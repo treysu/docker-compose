@@ -61,10 +61,10 @@ done
 cd "$(dirname "$0")/.."
 
 # Check for run_list or blacklist file in the root directory
-if [ -f "run_list" ]; then
+if [ -f "$0/run_list" ]; then
     # If run_list exists, read the allowed folders from it
     ALLOWED_FOLDERS=$(cat run_list)
-elif [ -f "blacklist" ]; then
+elif [ -f "$0/run_all_except_list" ]; then
     # If blacklist exists, read the disallowed folders from it
     DISALLOWED_FOLDERS=$(cat blacklist)
 fi
