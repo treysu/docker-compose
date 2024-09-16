@@ -1,17 +1,21 @@
 # Ignore everything by default
 *
+# Allow all directories to be included for further matching
+!*/
 
-# Allow compose.yaml files in any directory
-!*/compose.yaml
-
-# Allow files ending with .example
-!*.example
+*/*
 
 # Allow standard Git files
 !.gitignore
 !.gitmodules
 !README.md
 
-# Allow everything in the .scripts directory
-!/.scripts/
+# Allow compose.yaml files in any directory
+!**/compose.yaml
+
+# Allow files ending with .example in any directory
+!**/*.example
+
+# Allow everything in the .scripts directory and its contents
+!.scripts/
 !.scripts/**
