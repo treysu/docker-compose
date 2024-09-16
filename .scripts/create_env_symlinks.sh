@@ -12,7 +12,7 @@ if [ ! -f "$DEFAULT_ENV" ]; then
     exit 1
 fi
 
-# Change to the parent directory
+# Switch to the parent directory
 cd "$SCRIPT_DIR/.."
 
 # Loop through each folder in the root directory, except the .scripts folder
