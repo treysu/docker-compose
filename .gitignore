@@ -1,0 +1,13 @@
+# Ignore everything
+*
+*/docker-data/*
+
+
+# But not these files...
+!.gitignore
+!.gitmodules
+!README.md
+!./.scripts/
+!*/compose.yaml
+!*.example
+
