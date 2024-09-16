@@ -8,7 +8,7 @@ usage() {
     echo "    --pull       Pull latest Docker images"
     echo "    --shutdown   Shutdown Docker Compose services"
     echo "    --clean      Prune all unused Docker objects (volumes, networks, images, containers)"
-    echo "If run_list or blacklist is present in the root directory, the script will use it to determine which folders to include or exclude."
+    echo "If run_list or run_all_except_list is present in the root directory, the script will use it to determine which folders to include or exclude."
     exit 1
 }
 
@@ -57,17 +57,24 @@ do
     esac
 done
 
-# Change to the script's parent directory
-cd "$(dirname "$0")/.."
+# Get the directory where the script is located
+SCRIPT_DIR="$(dirname "$0")"
 
-# Check for run_list or blacklist file in the root directory
-if [ -f "$0/run_list" ]; then
+# Define paths to the run_list and run_all_except_list files relative to the script's location
+RUN_LIST_FILE="$SCRIPT_DIR/run_list"
+EXCLUDE_LIST_FILE="$SCRIPT_DIR/run_all_except_list"
+
+# Check for run_list or run_all_except_list file in the script's directory
+if [ -f "$RUN_LIST_FILE" ]; then
     # If run_list exists, read the allowed folders from it
-    ALLOWED_FOLDERS=$(cat run_list)
-elif [ -f "$0/run_all_except_list" ]; then
-    # If blacklist exists, read the disallowed folders from it
-    DISALLOWED_FOLDERS=$(cat blacklist)
+    ALLOWED_FOLDERS=$(cat "$RUN_LIST_FILE")
+elif [ -f "$EXCLUDE_LIST_FILE" ]; then
+    # If run_all_except_list exists, read the disallowed folders from it
+    DISALLOWED_FOLDERS=$(cat "$EXCLUDE_LIST_FILE")
 fi
+
+# Change to the parent directory of the script
+cd "$SCRIPT_DIR/.."
 
 # Loop through each folder in the root directory
 for dir in */ ; do
@@ -79,14 +86,14 @@ for dir in */ ; do
         # Determine if this folder should be included or excluded
         if [ -n "$ALLOWED_FOLDERS" ]; then
             # If run_list is defined, only process folders in the run_list
-            if ! grep -qx "$folder" run_list; then
+            if ! echo "$ALLOWED_FOLDERS" | grep -qx "$folder"; then
                 echo "Skipping $folder (not in run_list)"
                 continue
             fi
         elif [ -n "$DISALLOWED_FOLDERS" ]; then
-            # If blacklist is defined, skip folders in the blacklist
-            if grep -qx "$folder" blacklist; then
-                echo "Skipping $folder (in blacklist)"
+            # If run_all_except_list is defined, skip folders in the exclude list
+            if echo "$DISALLOWED_FOLDERS" | grep -qx "$folder"; then
+                echo "Skipping $folder (in run_all_except_list)"
                 continue
             fi
         fi
@@ -116,4 +123,3 @@ if [ "$CLEAN" = true ]; then
     echo "Pruning all unused Docker objects (volumes, networks, images, containers)"
     docker system prune -a --volumes -f
 fi
-
