@@ -18,4 +18,4 @@
 
 # Allow everything in the .scripts directory and its contents
 !.scripts/
-!.scripts/**
+!.scripts/**.sh
