@@ -1,3 +1,6 @@
 [submodule "hass"]
 	path = hass
 	url = https://github.com/treysullivent/docker-compose-hass.git
+[submodule "mediag"]
+	path = mediag
+	url = https://github.com/treysullivent/docker-compose-mediag.git
