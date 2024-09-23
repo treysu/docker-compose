@@ -24,6 +24,8 @@ services:
     environment:
       - USERID=1000
       - GROUPID=1000
+      - SAMBA_USERNAME=yourusername
+      - SAMBA_PASSWORD=yourpassword
     networks:
       - default
     ports:
@@ -38,10 +40,15 @@ services:
       - CAP_NET_ADMIN  
     stdin_open: true
     tty: true
+    env_file:
+      - path: default.env
+        required: true
+      - path: sambashare.env
+        required: true
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ~/sambashare:/sambashare:z
 
-    command: '-s "sambashare;/sambashare;yes;no;no;trey" -u "trey;treyspassword" -p'
+    command: '-s "sambashare;/sambashare;yes;no;no;$SAMBA_USERNAME" -u "$SAMBA_USERNAME;$SAMBA_PASSWORD" -p'
 networks:
   default:
