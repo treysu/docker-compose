@@ -105,7 +105,7 @@ for dir in */ ; do
         fi
         if [ "$LAUNCH" = true ]; then
             echo "Launching Docker Compose for $folder"
-            docker compose -f "$folder/compose.yaml" up -d
+            docker compose -f "$folder/compose.yaml" up -d --remove-orphans
         fi
         if [ "$RESTART" = true ]; then
             echo "Restarting Docker Compose for $folder"
@@ -121,5 +121,5 @@ done
 # Perform the clean operation if requested
 if [ "$CLEAN" = true ]; then
     echo "Pruning all unused Docker objects (volumes, networks, images, containers)"
-    docker system prune -a --volumes -f
+    docker system prune -af --volumes
 fi
