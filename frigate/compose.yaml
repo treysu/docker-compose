@@ -32,7 +32,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - ~/Docker/container-data/frigate/config:/config
-      - /media/library2/Frigate:/media/frigate
+      - /mnt/disk3/Frigate:/media/frigate
       #- type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
       #  target: /tmp/cache
       #  tmpfs:

@@ -1,0 +1,31 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+    - "com.centurylinklabs.watchtower.enable=true"
+  init: true
+  env_file:
+    - path: default.env
+      required: true
+
+name: homepage
+
+
+services:
+  homepage:
+    <<: [ *general ]
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    hostname: homepage
+    ports:
+      - 3000:3000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/homepage/config:/app/config
+      #- /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods
+    environment:
+      PUID: 1000
+      PGID: 1000
+
+
