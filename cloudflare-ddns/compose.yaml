@@ -13,6 +13,7 @@ name: cloudflare-ddns
 
 services:
   cloudflare-ddns:
+    <<: [ *general ]
     container_name: cloudflare-ddns
     hostname: cloudflare-ddns
     image: oznu/cloudflare-ddns:latest
@@ -23,6 +24,7 @@ services:
         required: true
 
   cloudflare-ddns2:
+    <<: [ *general ]
     container_name: cloudflare-ddns2
     hostname: cloudflare-ddns2
     image: oznu/cloudflare-ddns:latest
