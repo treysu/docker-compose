@@ -12,19 +12,18 @@ x-general: &general
   init: true
   env_file:
     - path: default.env
-      required: true 
+      required: true
 
 name: uptime-kuma
 
 services:
-    uptime-kuma:
-        <<: [*general]
-        container_name: uptime-kuma
-        hostname: uptime-kuma
-        image: louislam/uptime-kuma:1
-        ports:
-            - 3101:3001
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-            - ~/Docker/container-data/uptime-kuma:/app/data
-
+  uptime-kuma:
+    <<: [*general]
+    container_name: uptime-kuma
+    hostname: uptime-kuma
+    image: louislam/uptime-kuma:1
+    ports:
+      - 3101:3001
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/uptime-kuma:/app/data

@@ -13,11 +13,11 @@ x-general: &general
     - path: default.env
       required: true
 
-name:  watchtower
+name: watchtower
 
 services:
   watchtower:
-    <<: [ *general ]
+    <<: [*general]
     #continer_name: watchtower
     image: containrrr/watchtower
     volumes:

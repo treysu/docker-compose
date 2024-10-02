@@ -12,22 +12,21 @@ x-general: &general
   init: true
   env_file:
     - path: default.env
-      required: true 
+      required: true
 
-name:  nginx-site-personal
+name: nginx-site-personal
 
 services:
-    nginx-site-personal:
-        <<: [*general]
-        container_name: nginx-site-personal
-        hostname: nginx-site-personal
-        image: nginx
-        ports:
-            - 8000:80
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-            - ~/Docker/container-data/nginx-sites/personal-site:/usr/share/nginx/html:ro
-        environment:
-            - PUID=1002
-            - PGID=1003
-
+  nginx-site-personal:
+    <<: [*general]
+    container_name: nginx-site-personal
+    hostname: nginx-site-personal
+    image: nginx
+    ports:
+      - 8000:80
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/nginx-sites/personal-site:/usr/share/nginx/html:ro
+    environment:
+      - PUID=1002
+      - PGID=1003

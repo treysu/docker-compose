@@ -11,10 +11,9 @@ x-general: &general
 
 name: homepage
 
-
 services:
   homepage:
-    <<: [ *general ]
+    <<: [*general]
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     hostname: homepage
@@ -27,5 +26,3 @@ services:
     environment:
       PUID: 1000
       PGID: 1000
-
-

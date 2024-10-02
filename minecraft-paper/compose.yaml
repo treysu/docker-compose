@@ -13,14 +13,14 @@ x-general: &general
     - path: default.env
       required: true
 
-name:  minecraft
+name: minecraft
 
 services:
   minecraft:
-    <<: [ *general ]
+    <<: [*general]
     container_name: minecraft
     hostname: minecraft
-    image: itzg/minecraft-server 
+    image: itzg/minecraft-server
     ports:
       - 25565:25565
     environment:
@@ -34,4 +34,3 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ~/Docker/container-data/minecraft-paper/data:/data
-

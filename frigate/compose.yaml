@@ -16,18 +16,17 @@ x-automation: &automation
 name: homeassistant
 
 services:
-
-  #-------------------------------------  
+  #-------------------------------------
   frigate:
-    <<: [ *general ]
+    <<: [*general]
     container_name: frigate
     hostname: frigate
     #privileged: true
     image: ghcr.io/blakeblackshear/frigate:stable
     shm_size: "64mb" # update for your cameras based on calculation above
     devices:
-      - /dev/apex_0:/dev/apex_0    # Passes PCIe Coral
-      - /dev/dri:/dev/dri    # Passes PCIe GPU for transcoding
+      - /dev/apex_0:/dev/apex_0 # Passes PCIe Coral
+      - /dev/dri:/dev/dri # Passes PCIe GPU for transcoding
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -57,3 +56,9 @@ services:
         required: true
       - path: frigate.env
         required: true
+    labels:
+      - homepage.group=Automation
+      - homepage.name=Frigate
+      - homepage.icon=frigate.png
+      - homepage.href=http://frigate.trey.lol/
+      - homepage.description=Frigate NVR server

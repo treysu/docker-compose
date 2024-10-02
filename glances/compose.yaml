@@ -14,11 +14,11 @@ x-general: &general
     - path: default.env
       required: true
 
-name:  glances
+name: glances
 
 services:
   glances:
-    <<: [ *general ]
+    <<: [*general]
     container_name: glances
     hostname: glances
     image: nicolargo/glances:3.4.0.5-full

@@ -13,7 +13,7 @@ name: youtube-dl
 
 services:
   youtube-dl:
-    <<: [ *general ]
+    <<: [*general]
     container_name: youtube-dl
     hostname: youtube-dl
     image: tzahi12345/youtubedl-material:latest
@@ -21,9 +21,9 @@ services:
       - "8998:17442"
 
     environment:
-      ytdl_mongodb_connection_string: 'mongodb://youtube-dl-db:27017'
-      ytdl_use_local_db: 'false'
-      write_ytdl_config: 'true'
+      ytdl_mongodb_connection_string: "mongodb://youtube-dl-db:27017"
+      ytdl_use_local_db: "false"
+      write_ytdl_config: "true"
     depends_on:
       - youtube-dl-db
     volumes:
@@ -40,7 +40,7 @@ services:
       retries: 3
 
   youtube-dl-db:
-    <<: [ *general ]
+    <<: [*general]
     container_name: youtube-dl-db
     hostname: youtube-dl-db
     image: mongo:4
