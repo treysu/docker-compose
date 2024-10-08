@@ -24,12 +24,13 @@ services:
       - 25577:25577
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/disk3/DockerData/velocity/data:/data
+      - ~/Docker/container-data/velocity/data:/data
+      #- /mnt/disk3/DockerData/velocity/data:/data
     environment:
       - PUID=1002
       - PGID=1003
     depends_on:
-      minecraft:
+      minecraft-survival:
         condition: service_started
       minecraft-skyblock:
         condition: service_started
@@ -44,7 +45,7 @@ services:
       - 25590:25565
     environment:
       - TYPE=PAPER
-      - INIT_MEMORY=1G
+      - INIT_MEMORY=128M
       - MAX_MEMORY=4G
       - EULA=TRUE
      # - ENABLE_AUTOPAUSE=TRUE
@@ -63,7 +64,7 @@ services:
       - 25591:25565
     environment:
       - TYPE=PAPER
-      - INIT_MEMORY=1G
+      - INIT_MEMORY=128M
       - MAX_MEMORY=1G
       - EULA=TRUE
      # - ENABLE_AUTOPAUSE=TRUE
@@ -84,7 +85,7 @@ services:
       - 25592:25565
     environment:
       - TYPE=PAPER
-      - INIT_MEMORY=1G
+      - INIT_MEMORY=128M
       - MAX_MEMORY=4G
       - EULA=TRUE
      # - ENABLE_AUTOPAUSE=TRUE
@@ -102,7 +103,7 @@ services:
       - 25593:25565
     environment:
       - TYPE=PAPER
-      - INIT_MEMORY=1G
+      - INIT_MEMORY=128M
       - MAX_MEMORY=4G
       - EULA=TRUE
      # - ENABLE_AUTOPAUSE=TRUE
