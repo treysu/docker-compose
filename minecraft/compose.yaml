@@ -1,0 +1,113 @@
+---
+x-general: &general
+  restart: unless-stopped
+  labels:
+    - autoheal=true
+  #healthcheck:
+  #  test: curl google.com || exit 1
+  #  interval: 30s
+  #  timeout: 10s
+  #  retries: 3
+  init: true
+  env_file:
+    - path: default.env
+      required: true
+
+name: minecraft
+
+services:
+  velocity:
+    <<: [*general]
+    container_name: velocity
+    image: treysu/velocity:latest
+    ports:
+      - 25577:25577
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/Docker/container-data/velocity/data:/data
+    environment:
+      - PUID=1002
+      - PGID=1003
+    depends_on:
+      minecraft:
+        condition: service_started
+      minecraft-skyblock:
+        condition: service_started
+      minecraft-lobby:
+        condition: service_started
+
+  minecraft-lobby:
+    <<: [*general]
+    container_name: minecraft-lobby
+    image: itzg/minecraft-server
+    ports:
+      - 25590:25565
+    environment:
+      - TYPE=PAPER
+      - INIT_MEMORY=1G
+      - MAX_MEMORY=4G
+      - EULA=TRUE
+     # - ENABLE_AUTOPAUSE=TRUE
+     # - AUTOPAUSE_TIMEOUT_EST=300
+     # - AUTOPAUSE_TIMEOUT_INIT=300
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/disk3/DockerData/minecraft-lobby/data:/data
+
+  minecraft-survival:
+    <<: [*general]
+    container_name: minecraft-survival
+    hostname: minecraft-survival
+    image: itzg/minecraft-server
+    ports:
+      - 25591:25565
+    environment:
+      - TYPE=PAPER
+      - INIT_MEMORY=1G
+      - MAX_MEMORY=1G
+      - EULA=TRUE
+     # - ENABLE_AUTOPAUSE=TRUE
+     # - AUTOPAUSE_TIMEOUT_EST=300
+     # - AUTOPAUSE_TIMEOUT_INIT=300
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/disk3/DockerData/minecraft-survival/data:/data
+
+
+
+
+  minecraft-skyblock:
+    <<: [*general]
+    container_name: minecraft-skyblock
+    image: itzg/minecraft-server
+    ports:
+      - 25592:25565
+    environment:
+      - TYPE=PAPER
+      - INIT_MEMORY=1G
+      - MAX_MEMORY=4G
+      - EULA=TRUE
+     # - ENABLE_AUTOPAUSE=TRUE
+     # - AUTOPAUSE_TIMEOUT_EST=300
+     # - AUTOPAUSE_TIMEOUT_INIT=300
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/disk3/DockerData/minecraft-skyblock/data:/data
+
+  minecraft-creative:
+    <<: [*general]
+    container_name: minecraft-creative
+    image: itzg/minecraft-server
+    ports:
+      - 25593:25565
+    environment:
+      - TYPE=PAPER
+      - INIT_MEMORY=1G
+      - MAX_MEMORY=4G
+      - EULA=TRUE
+     # - ENABLE_AUTOPAUSE=TRUE
+     # - AUTOPAUSE_TIMEOUT_EST=300
+     # - AUTOPAUSE_TIMEOUT_INIT=300
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/disk3/DockerData/minecraft-creative/data:/data
