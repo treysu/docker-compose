@@ -1,9 +1,9 @@
 [submodule "hass"]
 	path = hass
-	url = https://github.com/treysullivent/docker-compose-hass.git
+	url = https://github.com/treysu/docker-compose-hass.git
 [submodule "mediag"]
 	path = mediag
-	url = https://github.com/treysullivent/docker-compose-mediag.git
+	url = https://github.com/treysu/docker-compose-mediag.git
 [submodule "plex"]
 	path = plex
-	url = https://github.com/treysullivent/docker-compose-plex
+	url = https://github.com/treysu/docker-compose-plex
