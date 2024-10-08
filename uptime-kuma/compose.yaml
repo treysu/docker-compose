@@ -26,4 +26,4 @@ services:
       - 3101:3001
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ~/Docker/container-data/uptime-kuma:/app/data
+      - /mnt/disk3/DockerData/uptime-kuma:/app/data

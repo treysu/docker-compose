@@ -24,7 +24,7 @@ services:
       - 25577:25577
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ~/Docker/container-data/velocity/data:/data
+      - /mnt/disk3/DockerData/velocity/data:/data
     environment:
       - PUID=1002
       - PGID=1003
