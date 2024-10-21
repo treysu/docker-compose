@@ -30,14 +30,4 @@ services:
       - 3101:3001
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - nfs_volume:/app/data
-
-
-volumes:
-  nfs_volume:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=192.168.101.56,nolock,soft,rw  # Replace with your NFS server address and options
-      device: ":/mnt/disk3/DockerData/uptime-kuma"  # Replace with your NFS share path
-
+      - /mnt/disk3/DockerData/uptime-kuma:/app/data

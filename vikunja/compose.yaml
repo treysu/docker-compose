@@ -28,7 +28,7 @@ services:
     #  retries: 3
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /nfs/3/DockerData/vikunja/files:/app/vikunja/files
+      - /mnt/disk3/DockerData/vikunja/files:/app/vikunja/files
     depends_on:
       vikunja-db:
         condition: service_healthy

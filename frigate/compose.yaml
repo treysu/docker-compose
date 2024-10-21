@@ -29,7 +29,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ~/Docker/container-data/frigate/config:/config
-      #- /nfs/3/DockerData/frigate/config:/config
+      #- /mnt/disk3/DockerData/frigate/config:/config
       - /mnt/disk3/Frigate:/media/frigate
 
     ports:
