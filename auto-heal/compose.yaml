@@ -2,7 +2,7 @@
 x-general: &general
   restart: unless-stopped
   labels:
-    - autoheal=true
+    #- autoheal=true
     - "com.centurylinklabs.watchtower.enable=true"
   #healthcheck:
   #  test: curl google.com || exit 1
