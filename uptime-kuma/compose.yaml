@@ -9,7 +9,11 @@ x-general: &general
     interval: 30s
     timeout: 10s
     retries: 3
+  user: 1000:1000
   init: true
+  #environment:
+    #- PUID=1000
+    #- PGID=1000
   env_file:
     - path: default.env
       required: true
@@ -26,4 +30,14 @@ services:
       - 3101:3001
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/disk3/DockerData/uptime-kuma:/app/data
+      - nfs_volume:/app/data
+
+
+volumes:
+  nfs_volume:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.101.56,nolock,soft,rw  # Replace with your NFS server address and options
+      device: ":/mnt/disk3/DockerData/uptime-kuma"  # Replace with your NFS share path
+

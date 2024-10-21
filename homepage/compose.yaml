@@ -5,6 +5,7 @@ x-general: &general
     - autoheal=true
     - "com.centurylinklabs.watchtower.enable=true"
   init: true
+  user: 1000:1000
   env_file:
     - path: default.env
       required: true
@@ -21,7 +22,7 @@ services:
       - 3000:3000
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/disk3/DockerData/homepage/config:/app/config
+      - /nfs/3/DockerData/homepage/config:/app/config
       #- /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods
     environment:
       PUID: 1000

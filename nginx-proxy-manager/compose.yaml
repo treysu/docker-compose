@@ -18,8 +18,8 @@ name: nginx-proxy-manager
 services:
   nginx-proxy-manager:
     <<: [*general]
-    #image: jc21/nginx-proxy-manager:latest
-    image: jc21/nginx-proxy-manager:github-pr-3121
+    image: jc21/nginx-proxy-manager:latest
+    #image: jc21/nginx-proxy-manager:github-pr-3121
     container_name: nginx-proxy-manager
     hostname: nginx-proxy-manager
     environment:
@@ -31,6 +31,10 @@ services:
       - 443:443
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/disk3/DockerData/nginx-proxy-manager/data:/data
-      - /mnt/disk3/DockerData/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
-      - /mnt/disk3/DockerData/nginx-proxy-manager/_hsts_map.conf:/app/templates/_hsts_map.conf
+      - ~/Docker/container-data/nginx-proxy-manager/data:/data
+      - ~/Docker/container-data/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+      - ~/Docker/container-data/nginx-proxy-manager/_hsts_map.conf:/app/templates/_hsts_map.conf
+
+      #- /mnt/disk3/DockerData/nginx-proxy-manager/data:/data
+      #- /mnt/disk3/DockerData/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+      #- /mnt/disk3/DockerData/nginx-proxy-manager/_hsts_map.conf:/app/templates/_hsts_map.conf
