@@ -75,14 +75,14 @@ services:
 #      - /etc/localtime:/etc/localtime:ro
 #      - /mnt/disk3/DockerData/minecraft-skyblock/data:/data
 #
-#  minecraft-creative:
-#    <<: [*general, *minecraft]
-#    container_name: minecraft-creative
-#    ports:
-#      - 25593:25565
-#    volumes:
-#      - /etc/localtime:/etc/localtime:ro
-#      - /mnt/disk3/DockerData/minecraft-creative/data:/data
+  minecraft-creative:
+    <<: [*general, *minecraft]
+    container_name: minecraft-creative
+    ports:
+      - 25593:25565
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/disk3/DockerData/minecraft-creative/data:/data
 
   minecraft-toh:
     <<: [*general, *minecraft]
