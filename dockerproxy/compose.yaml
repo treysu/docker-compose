@@ -4,11 +4,11 @@ x-general: &general
   labels:
     - autoheal=true
     - "com.centurylinklabs.watchtower.enable=true"
-  healthcheck:
-    test: curl google.com || exit 1
-    interval: 30s
-    timeout: 10s
-    retries: 3
+  #healthcheck:
+  #  test: curl google.com || exit 1
+  #  interval: 30s
+  #  timeout: 10s
+  #  retries: 3
   init: true
   env_file:
     - path: default.env
