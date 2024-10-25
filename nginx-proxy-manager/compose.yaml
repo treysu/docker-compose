@@ -1,6 +1,6 @@
 ---
 x-general: &general
-  init: true
+  #init: true
   restart: unless-stopped
   env_file:
     - path: default.env
