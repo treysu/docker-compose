@@ -1,0 +1,46 @@
+---
+x-general: &general
+  init: true
+  restart: unless-stopped
+  env_file:
+    - path: default.env
+      required: false
+  labels:
+    - autoheal=true
+    - com.centurylinklabs.watchtower.enable=true
+
+x-healthcheck: &healthcheck
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
+
+name: audiobookshelf
+services:
+  audiobookshelf:
+    <<: [*general, *healthcheck]
+    container_name: audiobookshelf
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    ports:
+      - 13378:80
+    volumes:
+      - /mnt/MediaLibrary2/Audiobooks:/audiobooks
+      - /mnt/MediaLibrary2/Podcasts:/podcasts
+      - ~/Docker/container-data/servarr/audiobookshelf/config:/config
+      - ~/Docker/container-data/servarr/audiobookshelf/metadata:/metadata
+    environment:
+      - TZ=America/Denver
+
+  openaudible:
+    <<: [*general, *healthcheck]
+    ports:
+      - 3000:3000
+    security_opt:
+      - seccomp=unconfined
+    container_name: openaudible
+    image: openaudible/openaudible:latest
+
+
+
+
