@@ -1,25 +1,26 @@
 ---
 x-general: &general
+  init: true
   restart: unless-stopped
+  env_file:
+    - path: default.env
+      required: false
   labels:
     - autoheal=true
-    - "com.centurylinklabs.watchtower.enable=true"
+    - com.centurylinklabs.watchtower.enable=true
+
+x-healthcheck: &healthcheck
   healthcheck:
     test: curl google.com || exit 1
     interval: 30s
     timeout: 10s
     retries: 3
-  init: true
-  env_file:
-    - path: default.env
-      required: true
 
 name: vscode-server
 
-
 services:
   vscode-server:
-    <<: [*general]
+    <<: [*general, *healthcheck]
     image: lscr.io/linuxserver/code-server:latest
     container_name: vscode-server
     environment:

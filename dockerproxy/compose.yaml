@@ -1,25 +1,26 @@
 ---
 x-general: &general
-  restart: unless-stopped
-  labels:
-    - autoheal=true
-    - "com.centurylinklabs.watchtower.enable=true"
-  #healthcheck:
-  #  test: curl google.com || exit 1
-  #  interval: 30s
-  #  timeout: 10s
-  #  retries: 3
   init: true
+  restart: unless-stopped
   env_file:
     - path: default.env
-      required: true
+      required: false
+  labels:
+    - autoheal=true
+    - com.centurylinklabs.watchtower.enable=true
+
+x-healthcheck: &healthcheck
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
 
 name: dockerproxy
 
 services:
-
   dockerproxy:
-    <<: [*general]
+    <<: [*general, *healthcheck]
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy
     environment:

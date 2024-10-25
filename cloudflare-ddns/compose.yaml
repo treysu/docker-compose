@@ -1,19 +1,26 @@
 ---
 x-general: &general
-  restart: unless-stopped
-  labels:
-    - autoheal=true
-    - "com.centurylinklabs.watchtower.enable=true"
   init: true
+  restart: unless-stopped
   env_file:
     - path: default.env
-      required: true
+      required: false
+  labels:
+    - autoheal=true
+    - com.centurylinklabs.watchtower.enable=true
+
+x-healthcheck: &healthcheck
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
 
 name: cloudflare-ddns
 
 services:
   cloudflare-ddns:
-    <<: [*general]
+    <<: [*general, *healthcheck]
     container_name: cloudflare-ddns
     hostname: cloudflare-ddns
     image: oznu/cloudflare-ddns:latest
@@ -24,7 +31,7 @@ services:
         required: true
 
   cloudflare-ddns2:
-    <<: [*general]
+    <<: [*general, *healthcheck]
     container_name: cloudflare-ddns2
     hostname: cloudflare-ddns2
     image: oznu/cloudflare-ddns:latest

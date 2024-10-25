@@ -1,17 +1,20 @@
 ---
 x-general: &general
-  restart: unless-stopped
-  labels:
-    - autoheal=true
-  #healthcheck:
-  #  test: curl google.com || exit 1
-  #  interval: 30s
-  #  timeout: 10s
-  #  retries: 3
   init: true
+  restart: unless-stopped
   env_file:
     - path: default.env
-      required: true
+      required: false
+  labels:
+    - autoheal=true
+    - com.centurylinklabs.watchtower.enable=true
+
+x-healthcheck: &healthcheck
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
 
 x-minecraft: &minecraft
   image: marctv/minecraft-papermc-server
@@ -20,9 +23,9 @@ x-minecraft: &minecraft
     - INIT_MEMORY=128M
     - MAX_MEMORY=4G
     - EULA=TRUE
-   # - ENABLE_AUTOPAUSE=TRUE
-   # - AUTOPAUSE_TIMEOUT_EST=300
-   # - AUTOPAUSE_TIMEOUT_INIT=300
+    # - ENABLE_AUTOPAUSE=TRUE
+    # - AUTOPAUSE_TIMEOUT_EST=300
+    # - AUTOPAUSE_TIMEOUT_INIT=300
 
 name: minecraft
 
@@ -48,33 +51,33 @@ services:
       #minecraft-lobby:
       #  condition: service_started
 
-#  minecraft-lobby:
-#    <<: [*general, *minecraft]
-#    container_name: minecraft-lobby
-#    ports:
-#      - 25590:25565
-#    volumes:
-#      - /etc/localtime:/etc/localtime:ro
-#      - /mnt/disk3/DockerData/minecraft-lobby/data:/data
-#
-#  minecraft-survival:
-#    <<: [*general, *minecraft]
-#    container_name: minecraft-survival
-#    ports:
-#      - 25591:25565
-#    volumes:
-#      - /etc/localtime:/etc/localtime:ro
-#      - /mnt/disk3/DockerData/minecraft-survival/data:/data
-#
-#  minecraft-skyblock:
-#    <<: [*general, *minecraft]
-#    container_name: minecraft-skyblock
-#    ports:
-#      - 25592:25565
-#    volumes:
-#      - /etc/localtime:/etc/localtime:ro
-#      - /mnt/disk3/DockerData/minecraft-skyblock/data:/data
-#
+  #  minecraft-lobby:
+  #    <<: [*general, *minecraft]
+  #    container_name: minecraft-lobby
+  #    ports:
+  #      - 25590:25565
+  #    volumes:
+  #      - /etc/localtime:/etc/localtime:ro
+  #      - /mnt/disk3/DockerData/minecraft-lobby/data:/data
+  #
+  #  minecraft-survival:
+  #    <<: [*general, *minecraft]
+  #    container_name: minecraft-survival
+  #    ports:
+  #      - 25591:25565
+  #    volumes:
+  #      - /etc/localtime:/etc/localtime:ro
+  #      - /mnt/disk3/DockerData/minecraft-survival/data:/data
+  #
+  #  minecraft-skyblock:
+  #    <<: [*general, *minecraft]
+  #    container_name: minecraft-skyblock
+  #    ports:
+  #      - 25592:25565
+  #    volumes:
+  #      - /etc/localtime:/etc/localtime:ro
+  #      - /mnt/disk3/DockerData/minecraft-skyblock/data:/data
+  #
   minecraft-creative:
     <<: [*general, *minecraft]
     container_name: minecraft-creative
@@ -92,4 +95,3 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /mnt/disk3/DockerData/minecraft-toh/data:/data
-

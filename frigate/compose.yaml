@@ -1,12 +1,20 @@
 ---
 x-general: &general
+  init: true
   restart: unless-stopped
-  labels:
-    - autoheal=true
-    - "com.centurylinklabs.watchtower.enable=true"
   env_file:
     - path: default.env
-      required: true
+      required: false
+  labels:
+    - autoheal=true
+    - com.centurylinklabs.watchtower.enable=true
+
+x-healthcheck: &healthcheck
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
 
 x-automation: &automation
   environment:
@@ -18,7 +26,7 @@ name: homeassistant
 services:
   #-------------------------------------
   frigate:
-    <<: [*general]
+    <<: [*general, *healthcheck]
     container_name: frigate
     hostname: frigate
     image: ghcr.io/blakeblackshear/frigate:stable
@@ -47,4 +55,3 @@ services:
         required: true
       - path: frigate.env
         required: true
-

@@ -1,23 +1,26 @@
 ---
 x-general: &general
+  init: true
   restart: unless-stopped
+  env_file:
+    - path: default.env
+      required: false
   labels:
     - autoheal=true
-    - "com.centurylinklabs.watchtower.enable=true"
+    - com.centurylinklabs.watchtower.enable=true
+
+x-healthcheck: &healthcheck
   healthcheck:
     test: wget --no-verbose --tries=1 --spider google.com || exit 1
     interval: 30s
     timeout: 10s
     retries: 3
-  env_file:
-    - path: default.env
-      required: true
 
 name: samba
 
 services:
   samba:
-    <<: [*general]
+    <<: [*general, *healthcheck]
     image: dperson/samba
     hostname: samba
     container_name: samba
@@ -43,5 +46,3 @@ services:
       - ~/sambashare:/sambashare:z
 
     command: '-s "sambashare;/sambashare;yes;no;no;$SAMBA_USERNAME" -u "$SAMBA_USERNAME;$SAMBA_PASSWORD" -p'
-networks:
-  default:

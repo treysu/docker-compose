@@ -1,14 +1,20 @@
 ---
 x-general: &general
-  restart: unless-stopped
-  labels:
-    - autoheal=true
-    - "com.centurylinklabs.watchtower.enable=true"
   init: true
-  user: 1000:1000
+  restart: unless-stopped
   env_file:
     - path: default.env
-      required: true
+      required: false
+  labels:
+    - autoheal=true
+    - com.centurylinklabs.watchtower.enable=true
+
+x-healthcheck: &healthcheck
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
 
 name: homepage
 
@@ -18,6 +24,7 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     hostname: homepage
+    user: 1000:1000
     ports:
       - 3000:3000
     volumes:
