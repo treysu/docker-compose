@@ -1,6 +1,6 @@
 ---
 x-general: &general
-  init: true
+  #init: true
   restart: unless-stopped
   env_file:
     - path: default.env
@@ -20,7 +20,7 @@ name: dockerproxy
 
 services:
   dockerproxy:
-    <<: [*general, *healthcheck]
+    <<: [*general]
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy
     environment:
