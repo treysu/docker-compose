@@ -1,0 +1,35 @@
+---
+x-general: &general
+  init: true
+  restart: unless-stopped
+  env_file:
+    - path: default.env
+      required: false
+  labels:
+    #- autoheal=true
+    - com.centurylinklabs.watchtower.enable=true
+
+x-healthcheck: &healthcheck
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
+
+name: homarr
+
+
+services:    
+  homarr:
+    <<: [*general]
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    environment:
+      DOZZLE_REMOTE_HOST: tcp://192.168.101.50:2375,tcp://192.168.101.51:2375
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
+      - ./homarr/configs:/app/data/configs
+      - ./homarr/icons:/app/public/icons
+      - ./homarr/data:/data
+    ports:
+      - '7575:7575'
