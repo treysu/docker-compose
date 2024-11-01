@@ -34,6 +34,6 @@ services:
       - PROXY_DOMAIN=code-server.my.domain #optional
       - DEFAULT_WORKSPACE=/config/workspace #optional
     volumes:
-      - /mnt/disk3/DockerData/code-server/config:/config
+      - /mnt/docker-data/code-server/config:/config
     ports:
       - 8443:8443

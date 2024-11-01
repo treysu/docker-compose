@@ -32,4 +32,4 @@ services:
     #- PGID=1000
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/disk3/DockerData/uptime-kuma:/app/data
+      - /mnt/docker-data/uptime-kuma:/app/data
