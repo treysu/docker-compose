@@ -33,7 +33,7 @@ services:
       - MTX_WEBRTCADDITIONALHOSTS=192.168.1.189
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/disk3/DockerData/mediamtx/mediamtx.yml:/mediamtx.yml
+      - /mnt/docker-data/mediamtx/mediamtx.yml:/mediamtx.yml
     ports:
       - 8554:8554
       - 1935:1935
