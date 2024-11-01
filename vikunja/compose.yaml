@@ -33,7 +33,7 @@ services:
     #  retries: 3
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/disk3/DockerData/vikunja/files:/app/vikunja/files
+      - /mnt/docker-data/vikunja/files:/app/vikunja/files
     depends_on:
       vikunja-db:
         condition: service_healthy
@@ -46,7 +46,7 @@ services:
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/disk3/DockerData/vikunja/db:/var/lib/mysql
+      - /mnt/docker-data/vikunja/db:/var/lib/mysql
     healthcheck:
       test:
         [

@@ -27,15 +27,13 @@ services:
     volumes:
       - /mnt/MediaLibrary2/Audiobooks:/audiobooks
       - /mnt/MediaLibrary2/Podcasts:/podcasts
-      - ~/Docker/container-data/servarr/audiobookshelf/config:/config
-      - ~/Docker/container-data/servarr/audiobookshelf/metadata:/metadata
-    environment:
-      - TZ=America/Denver
+      - /mnt/docker-data/audiobookshelf/config:/config
+      - /mnt/docker-data/audiobookshelf/metadata:/metadata
 
   openaudible:
     <<: [*general, *healthcheck]
     ports:
-      - 3000:3000
+      - 13379:3000
     security_opt:
       - seccomp=unconfined
     container_name: openaudible

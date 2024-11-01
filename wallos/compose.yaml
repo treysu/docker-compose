@@ -27,5 +27,5 @@ services:
       - "8282:80/tcp"
     # Volumes store your data between container upgrades
     volumes:
-      - ~/Docker/container-data/wallos/db:/var/www/html/db
-      - ~/Docker/container-data/wallos/logos:/var/www/html/images/uploads/logos
+      - /mnt/docker-data/wallos/db:/var/www/html/db
+      - /mnt/docker-data/wallos/logos:/var/www/html/images/uploads/logos

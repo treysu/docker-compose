@@ -28,7 +28,7 @@ services:
       - 8000:80
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/disk3/DockerData/nginx-sites/personal-site:/usr/share/nginx/html:ro
+      - /mnt/docker-data/nginx-sites/personal-site:/usr/share/nginx/html:ro
     environment:
-      - PUID=1002
+      - PUID=1003
       - PGID=1003

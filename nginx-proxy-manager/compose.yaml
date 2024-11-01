@@ -34,6 +34,6 @@ services:
       - 443:443
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ~/Docker/container-data/nginx-proxy-manager/data:/data
-      - ~/Docker/container-data/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
-      - ~/Docker/container-data/nginx-proxy-manager/_hsts_map.conf:/app/templates/_hsts_map.conf
+      - /mnt/docker-data/nginx-proxy-manager/data:/data
+      - /mnt/docker-data/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+      - /mnt/docker-data/nginx-proxy-manager/_hsts_map.conf:/app/templates/_hsts_map.conf

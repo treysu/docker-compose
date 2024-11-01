@@ -28,8 +28,8 @@ services:
       DOZZLE_REMOTE_HOST: tcp://192.168.101.50:2375,tcp://192.168.101.51:2375
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
-      - ./homarr/configs:/app/data/configs
-      - ./homarr/icons:/app/public/icons
-      - ./homarr/data:/data
+      - /mnt/docker-data/homarr/configs:/app/data/configs
+      - /mnt/docker-data/homarr/icons:/app/public/icons
+      - /mnt/docker-data/homarr/data:/data
     ports:
       - '7575:7575'
