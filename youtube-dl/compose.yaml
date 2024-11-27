@@ -40,7 +40,6 @@ services:
       - /media/library1/MediaLibrary1/Videos:/app/video
       - /media/library1/MediaLibrary1/subscriptions:/app/subscriptions
       - /mnt/docker-data/youtube-dl/users:/app/users
-      #- /mnt/disk3/DockerData/youtube-dl/users:/app/users
     healthcheck:
       test: curl http://localhost:17442 || exit 1
       interval: 30s

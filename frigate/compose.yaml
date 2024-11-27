@@ -36,8 +36,7 @@ services:
       - /dev/dri:/dev/dri # Passes PCIe GPU for transcoding
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ~/Docker/container-data/frigate/config:/config
-      #- /mnt/disk3/DockerData/frigate/config:/config
+      - /mnt/docker-data/frigate/config:/config
       - /mnt/disk3/Frigate:/media/frigate
 
     ports:
