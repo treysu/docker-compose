@@ -1,0 +1,56 @@
+---
+x-general: &general
+  #init: true
+  restart: unless-stopped
+  env_file:
+    - path: default.env
+      required: false
+  labels:
+    - autoheal=true
+    - com.centurylinklabs.watchtower.enable=true
+
+x-healthcheck: &healthcheck
+  healthcheck:
+    test: curl google.com || exit 1
+    interval: 30s
+    timeout: 10s
+    retries: 3
+
+name: calibre
+services:
+  calibre:
+    <<: [*general, *healthcheck]
+    image: lscr.io/linuxserver/calibre:latest
+    container_name: calibre
+    security_opt:
+      - seccomp:unconfined #optional
+    environment:
+      - PUID=1002
+      - PGID=1002
+      - PASSWORD= #optional
+      - CLI_ARGS= #optional
+    volumes:
+      - ~/docker-data/calibre/config:/config
+      - /mnt/MediaLibrary1/calibre-export:/config/calibre-export
+    ports:
+      - 8980:8080
+      - 8981:8181
+      - 8881:8081
+
+
+  calibre-web:
+    <<: [*general, *healthcheck]
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: calibre-web
+    environment:
+      - PUID=1002
+      - PGID=1002
+      - DOCKER_MODS=linuxserver/mods:universal-calibre #optional
+      - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional
+    volumes:
+      - ~/docker-data/calibre/calibre-web:/config
+      - ~/docker-data/calibre/config/library:/books
+    ports:
+      - 8983:8083
+
+

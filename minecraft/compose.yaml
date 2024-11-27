@@ -51,41 +51,41 @@ services:
       #minecraft-lobby:
       #  condition: service_started
 
-  minecraft-lobby:
-    <<: [*general, *minecraft]
-    container_name: minecraft-lobby
-    ports:
-      - 25590:25565
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /mnt/docker-data/minecraft-lobby/data:/data
-
-  minecraft-survival:
-    <<: [*general, *minecraft]
-    container_name: minecraft-survival
-    ports:
-      - 25591:25565
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /mnt/docker-data/minecraft-survival/data:/data
-
-  minecraft-skyblock:
-    <<: [*general, *minecraft]
-    container_name: minecraft-skyblock
-    ports:
-      - 25592:25565
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /mnt/docker-data/minecraft-skyblock/data:/data
-
-  minecraft-creative:
-    <<: [*general, *minecraft]
-    container_name: minecraft-creative
-    ports:
-      - 25593:25565
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /mnt/docker-data/minecraft-creative/data:/data
+#  minecraft-lobby:
+#    <<: [*general, *minecraft]
+#    container_name: minecraft-lobby
+#    ports:
+#      - 25590:25565
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - /mnt/docker-data/minecraft-lobby/data:/data
+#
+#  minecraft-survival:
+#    <<: [*general, *minecraft]
+#    container_name: minecraft-survival
+#    ports:
+#      - 25591:25565
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - /mnt/docker-data/minecraft-survival/data:/data
+#
+#  minecraft-skyblock:
+#    <<: [*general, *minecraft]
+#    container_name: minecraft-skyblock
+#    ports:
+#      - 25592:25565
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - /mnt/docker-data/minecraft-skyblock/data:/data
+#
+#  minecraft-creative:
+#    <<: [*general, *minecraft]
+#    container_name: minecraft-creative
+#    ports:
+#      - 25593:25565
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - /mnt/docker-data/minecraft-creative/data:/data
 
   minecraft-toh:
     <<: [*general, *minecraft]
@@ -94,4 +94,4 @@ services:
       - 25594:25565
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/docker-data/minecraft-toh/data:/data
+      - ~/docker-data/minecraft-toh/data:/data

@@ -25,8 +25,8 @@ services:
     ports:
       - 13378:80
     volumes:
-      - /mnt/MediaLibrary2/Audiobooks:/audiobooks
-      - /mnt/MediaLibrary2/Podcasts:/podcasts
+      - /mnt/MediaLibrary1/Audiobooks:/audiobooks
+      - /mnt/MediaLibrary1/Podcasts:/podcasts
       - /mnt/docker-data/audiobookshelf/config:/config
       - /mnt/docker-data/audiobookshelf/metadata:/metadata
 
